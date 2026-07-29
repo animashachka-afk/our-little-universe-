@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Little Universe</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Georgia, serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(to bottom,#07111f,#000);
+overflow:hidden;
+color:white;
+}
+
+.stars{
+position:absolute;
+width:100%;
+height:100%;
+background:url("https://i.imgur.com/Q6aZ8mR.png");
+opacity:.35;
+animation:move 80s linear infinite;
+}
+
+@keyframes move{
+from{background-position:0 0;}
+to{background-position:0 1000px;}
+}
+
+.content{
+position:relative;
+text-align:center;
+animation:fade 2.5s;
+}
+
+h1{
+font-size:42px;
+font-weight:300;
+letter-spacing:4px;
+margin-bottom:12px;
+}
+
+p{
+opacity:.8;
+margin-bottom:35px;
+letter-spacing:2px;
+}
+
+button{
+background:transparent;
+border:1px solid white;
+color:white;
+padding:14px 40px;
+border-radius:40px;
+font-size:17px;
+}
+
+button:hover{
+background:white;
+color:black;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<div class="content">
+<h1>our little universe</h1>
+
+<p>27 july 2026</p>
+
+<button>enter</button>
+
+</div>
+
+</body>
+</html>
