@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Our Diary</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+scroll-behavior:smooth;
+}
+
+body{
+
+font-family:'Cormorant Garamond',serif;
+
+background:url("03d713769f2fbfa58103415ec97e6b62.jpg");
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+color:white;
+
+overflow-x:hidden;
+
+}
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+left:0;
+top:0;
+
+width:100%;
+height:100%;
+
+background:rgba(0,0,0,.45);
+
+backdrop-filter:blur(4px);
+
+z-index:-1;
+
+}
+
+section{
+
+min-height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+padding:60px 25px;
+
+}
+
+.card{
+
+width:100%;
+max-width:850px;
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.15);
+
+border-radius:35px;
+
+padding:45px 35px;
+
+box-shadow:0 0 35px rgba(0,0,0,.35);
+
+animation:fade 1.6s;
+
+}
+
+h1{
+
+font-size:54px;
+
+font-weight:600;
+
+text-align:center;
+
+letter-spacing:2px;
+
+margin-bottom:25px;
+
+}
+
+h2{
+
+font-size:36px;
+
+font-weight:400;
+
+margin-bottom:20px;
+
+text-align:center;
+
+}
+
+p{
+
+font-size:23px;
+
+line-height:1.8;
+
+text-align:center;
+
+opacity:.9;
+
+}
+
+.date{
+
+margin-top:35px;
+
+font-size:24px;
+
+letter-spacing:4px;
+
+opacity:.8;
+
+text-align:center;
+
+}
+
+.memory{
+
+margin-top:40px;
+
+padding:25px;
+
+border-radius:20px;
+
+background:rgba(255,255,255,.05);
+
+}
+
+.memory p{
+
+font-size:22px;
+
+}
+
+.photo{
+
+margin-top:35px;
+
+width:100%;
+
+border-radius:25px;
+
+overflow:hidden;
+
+box-shadow:0 0 30px rgba(0,0,0,.35);
+
+}
+
+.photo img{
+
+width:100%;
+
+display:block;
+
+transition:.6s;
+
+}
+
+.photo img:hover{
+
+transform:scale(1.03);
+
+}
+
+.scroll{
+
+position:fixed;
+
+bottom:25px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+font-size:18px;
+
+letter-spacing:5px;
+
+opacity:.75;
+
+animation:up 2s infinite;
+
+}
+
+.star{
+
+position:fixed;
+
+width:3px;
+
+height:3px;
+
+background:white;
+
+border-radius:50%;
+
+animation:twinkle 3s infinite;
+
+}
+
+@keyframes fade{
+
+from{
+
+opacity:0;
+
+transform:translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+@keyframes up{
+
+0%{transform:translate(-50%,0);}
+50%{transform:translate(-50%,-10px);}
+100%{transform:translate(-50%,0);}
+
+}
+
+@keyframes twinkle{
+
+0%{opacity:.2;}
+50%{opacity:1;}
+100%{opacity:.2;}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="star" style="top:8%;left:15%;"></div>
+<div class="star" style="top:17%;left:70%;animation-delay:1s;"></div>
+<div class="star" style="top:32%;left:80%;animation-delay:2s;"></div>
+<div class="star" style="top:48%;left:20%;"></div>
+<div class="star" style="top:62%;left:60%;animation-delay:1.5s;"></div>
+<div class="star" style="top:85%;left:35%;"></div>
+
+<section>
+
+<div class="card">
+
+<h1>Our Little Universe</h1>
+
+<p>
+
+Some stories don't begin with grand gestures.
+
+They begin with one message.
+
+One smile.
+
+One person.
+
+And somehow...
+
+that becomes home.
+
+</p>
+
+<div class="date">
+
+Since 7 August 2026
+
+</div>
+
+<div class="photo">
+
+<img src="f203e7dc9bb9a1a5f0dd073a3895f298.jpg">
+
+</div>
+
+</div>
+
+</section>
+<section>
+
+<div class="card">
+
+<h2>Our Memories</h2>
+
+<div class="memory">
+
+<p>
+
+The funniest thing is...
+
+Neither of us knew that one ordinary day
+would quietly become the beginning of everything.
+
+</p>
+
+</div>
+
+<div class="memory">
+
+<p>
+
+You became the place where my heart feels safe.
+
+Even silence feels beautiful with you.
+
+</p>
+
+</div>
+
+<div class="memory">
+
+<p>
+
+If I could relive one moment forever,
+
+I'd choose every ordinary day spent with you.
+
+</p>
+
+</div>
+
+<div class="photo">
+
+<img src="03d713769f2fbfa58103415ec97e6b62.jpg">
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<div class="card">
+
+<h2>Letters</h2>
+
+<p>
+
+Dear you,
+
+Thank you for making ordinary days feel magical.
+
+Thank you for staying.
+
+Thank you for every laugh,
+
+every late-night conversation,
+
+every tiny memory
+
+that slowly became my favorite place.
+
+</p>
+
+<br><br>
+
+<p>
+
+If one day we forget how this all started,
+
+I hope this little website reminds us
+
+that love was always hidden
+
+inside the smallest moments.
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<div class="card">
+
+<h2>Photo Gallery</h2>
+
+<p>
+
+Our favorite little moments.
+
+</p>
+
+<br>
+
+<div class="photo">
+
+<img src="03d713769f2fbfa58103415ec97e6b62.jpg">
+
+</div>
+
+<br><br>
+
+<div class="photo">
+
+<img src="f203e7dc9bb9a1a5f0dd073a3895f298.jpg">
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<div class="card">
+
+<h2>Little Things I Love</h2>
+
+<div class="memory">
+
+<p>♡ your smile</p>
+
+</div>
+
+<div class="memory">
+
+<p>♡ your voice</p>
+
+</div>
+
+<div class="memory">
+
+<p>♡ the way you make me laugh</p>
+
+</div>
+
+<div class="memory">
+
+<p>♡ every memory we've made together</p>
+
+</div>
+
+<div class="memory">
+
+<p>♡ you.</p>
+
+</div>
+
+</div>
+
+</section>
+<section>
+
+<div class="card">
+
+<h2>Our Playlist</h2>
+
+<p>
+
+One day our favorite songs
+will remind us of this little place.
+
+</p>
+
+<br><br>
+
+<audio controls style="width:100%;">
+
+<source src="music.mp3" type="audio/mpeg">
+
+</audio>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<div class="card">
+
+<h2>Time Together</h2>
+
+<p id="counter">
+
+Loading...
+
+</p>
+
+</div>
+
+</section>
+
+
+
+<section>
+
+<div class="card">
+
+<h2>Forever</h2>
+
+<p>
+
+No matter how many pages
+this diary will have...
+
+my favorite one
+
+will always be
+
+the page where our story began.
+
+</p>
+
+<br><br>
+
+<h1 style="font-size:65px;">♡</h1>
+
+</div>
+
+</section>
+
+
+
+<div class="scroll">
+
+scroll ↓
+
+</div>
+
+<script>
+
+const start = new Date("2026-07-25");
+
+const today = new Date("2026-08-07");
+
+const days = Math.floor((today-start)/(1000*60*60*24));
+
+document.getElementById("counter").innerHTML=
+
+days+" days together 🤍";
+
+</script>
+
+</body>
+
+</html>
