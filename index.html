@@ -3,14 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Little Universe</title>
-  
+
+<title>our little universe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Georgia, serif;
 }
 
 body{
@@ -18,84 +21,122 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:linear-gradient(to bottom,#07111f,#000);
+font-family:'Cormorant Garamond',serif;
 overflow:hidden;
+background:
+linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+linear-gradient(180deg,#070b11,#101722,#050608);
+background-size:cover;
+background-position:center;
 color:white;
 }
 
-.stars{
+body::before{
+content:"";
 position:absolute;
-width:100%;
-height:100%;
-background:url("https://i.imgur.com/Q6aZ8mR.png");
-opacity:.35;
-animation:move 80s linear infinite;
+width:200%;
+height:200%;
+background:
+radial-gradient(circle,#ffffff55 1px,transparent 1px);
+background-size:70px 70px;
+opacity:.2;
+animation:stars 120s linear infinite;
 }
 
-@keyframes move{
-from{background-position:0 0;}
-to{background-position:0 1000px;}
+@keyframes stars{
+from{transform:translateY(0);}
+to{transform:translateY(-600px);}
 }
 
-.content{
+.card{
 position:relative;
+z-index:5;
 text-align:center;
-animation:fade 2.5s;
+padding:55px 40px;
+width:90%;
+max-width:430px;
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(12px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:30px;
+animation:fade 2s ease;
 }
 
 h1{
-font-size:42px;
+font-size:64px;
 font-weight:300;
-letter-spacing:4px;
-margin-bottom:12px;
+line-height:.9;
+letter-spacing:2px;
+margin-bottom:20px;
 }
 
-p{
+.quote{
+font-size:22px;
 opacity:.8;
 margin-bottom:35px;
-letter-spacing:2px;
+font-style:italic;
+}
+
+.date{
+font-size:25px;
+opacity:.9;
+margin-bottom:45px;
 }
 
 button{
-background:transparent;
+font-family:'Cormorant Garamond',serif;
+font-size:24px;
+padding:15px 50px;
+border-radius:50px;
 border:1px solid white;
+background:transparent;
 color:white;
-padding:14px 40px;
-border-radius:40px;
-font-size:17px;
+cursor:pointer;
+transition:.4s;
 }
 
 button:hover{
 background:white;
 color:black;
+transform:scale(1.05);
 }
 
 @keyframes fade{
 from{
 opacity:0;
-transform:translateY(30px);
+transform:translateY(40px);
 }
 to{
 opacity:1;
 transform:translateY(0);
 }
 }
+
 </style>
 
 </head>
 
 <body>
 
-<div class="stars"></div>
+<div class="card">
 
-<div class="content">
-<h1>our little universe ☆</h1>
+<h1>
+our little<br>
+universe
+</h1>
 
-<p>27 july 2026</p>
+<div class="quote">
+every day with you<br>
+becomes another memory.
+</div>
 
-<a href="diary.html">
-    <button>enter</button>
-</a>
+<div class="date">
+7 August 2026
+</div>
+
+<button onclick="location.href='diary.html'">
+⟡ enter ⟡
+</button>
 
 </div>
 
