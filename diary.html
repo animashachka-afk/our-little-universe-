@@ -274,6 +274,57 @@ margin-top:15px;
 display:none;
 
 }
+    #adminButton {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.2);
+
+    color: white;
+    font-size: 22px;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(12px);
+
+    opacity: .65;
+
+    transition: .3s;
+
+    z-index: 100;
+}
+
+#adminButton:hover {
+    opacity: 1;
+    transform: rotate(20deg) scale(1.08);
+}
+
+#adminPanel {
+    animation: fadeIn .4s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 </style>
 </head>
@@ -290,19 +341,32 @@ display:none;
 
 <div class="container">
 
-<div class="section">
+<div id="adminButton" onclick="openAdmin()">
+    ✦
+</div>
 
-<h2>New Memory</h2>
+<div id="adminPanel" class="section hidden">
 
-<input id="title" placeholder="Title">
+    <h2>♡ Private</h2>
 
-<textarea id="text" placeholder="Write something beautiful..."></textarea>
+    <input id="title" placeholder="Title">
 
-<input type="file" id="image">
+    <textarea
+        id="text"
+        placeholder="Write something beautiful..."
+    ></textarea>
 
-<input type="file" id="music">
+    <input type="file" id="image">
 
-<button id="saveBtn">Save Memory</button>
+    <input type="file" id="music">
+
+    <button id="saveBtn">
+        Save Memory
+    </button>
+
+    <button onclick="closeAdmin()">
+        Close
+    </button>
 
 </div>
 
@@ -678,7 +742,15 @@ function escapeHTML(text) {
 /* LOAD WHEN PAGE OPENS */
 
 loadMemories();
+function openAdmin() {
+    document.getElementById("adminPanel")
+        .classList.remove("hidden");
+}
 
+function closeAdmin() {
+    document.getElementById("adminPanel")
+        .classList.add("hidden");
+    }
 </script>
   
 </body>
