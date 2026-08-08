@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Our Little Universe</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=EB+Garamond:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+
+background:url("f203e7dc9bb9a1a5f0dd073a3895f298.jpg") center center/cover fixed;
+
+font-family:"Cormorant Garamond",serif;
+
+color:white;
+
+min-height:100vh;
+
+overflow-x:hidden;
+
+}
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+background:rgba(12,10,18,.55);
+
+backdrop-filter:blur(7px);
+
+z-index:-2;
+
+}
+
+body::after{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+background:linear-gradient(
+180deg,
+rgba(0,0,0,.15),
+rgba(0,0,0,.45)
+);
+
+z-index:-1;
+
+}
+
+header{
+
+padding:45px 25px;
+
+text-align:center;
+
+}
+
+h1{
+
+font-size:50px;
+
+font-weight:500;
+
+letter-spacing:3px;
+
+margin-bottom:10px;
+
+}
+
+.subtitle{
+
+font-size:22px;
+
+opacity:.8;
+
+font-style:italic;
+
+}
+
+.container{
+
+width:92%;
+
+max-width:900px;
+
+margin:auto;
+
+padding-bottom:70px;
+
+}
+
+.section{
+
+background:rgba(255,255,255,.06);
+
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.15);
+
+border-radius:28px;
+
+padding:30px;
+
+margin-top:35px;
+
+box-shadow:0 15px 40px rgba(0,0,0,.3);
+
+}
+
+.section h2{
+
+font-size:34px;
+
+margin-bottom:20px;
+
+font-weight:500;
+
+}
+
+button{
+
+background:rgba(255,255,255,.08);
+
+border:1px solid rgba(255,255,255,.2);
+
+color:white;
+
+padding:14px 24px;
+
+border-radius:100px;
+
+font-size:18px;
+
+cursor:pointer;
+
+transition:.35s;
+
+font-family:inherit;
+
+}
+
+button:hover{
+
+background:rgba(255,255,255,.15);
+
+transform:translateY(-2px);
+
+}
+
+input,textarea{
+
+width:100%;
+
+margin-top:12px;
+
+margin-bottom:18px;
+
+padding:15px;
+
+border:none;
+
+outline:none;
+
+border-radius:16px;
+
+background:rgba(255,255,255,.1);
+
+color:white;
+
+font-size:17px;
+
+font-family:inherit;
+
+}
+
+textarea{
+
+height:180px;
+
+resize:none;
+
+}
+
+.memory{
+
+background:rgba(255,255,255,.05);
+
+border-radius:20px;
+
+padding:22px;
+
+margin-top:25px;
+
+border:1px solid rgba(255,255,255,.12);
+
+}
+
+.memory h3{
+
+font-size:30px;
+
+margin-bottom:10px;
+
+font-weight:500;
+
+}
+
+.memory p{
+
+font-size:20px;
+
+line-height:1.7;
+
+opacity:.9;
+
+white-space:pre-wrap;
+
+}
+
+.date{
+
+margin-top:14px;
+
+opacity:.6;
+
+font-size:17px;
+
+}
+
+img{
+
+width:100%;
+
+border-radius:18px;
+
+margin-top:15px;
+
+}
+
+audio{
+
+width:100%;
+
+margin-top:15px;
+
+}
+
+.hidden{
+
+display:none;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>Our Little Universe</h1>
+
+<p class="subtitle">A place where every memory lives forever.</p>
+
+</header>
+
+<div class="container">
+
+<div class="section">
+
+<h2>New Memory</h2>
+
+<input id="title" placeholder="Title">
+
+<textarea id="text" placeholder="Write something beautiful..."></textarea>
+
+<input type="file" id="image">
+
+<input type="file" id="music">
+
+<button id="saveBtn">Save Memory</button>
+
+</div>
+
+<div class="section">
+
+<h2>Memories</h2>
+
+<div id="memories"></div>
+
+</div>
+
+</div>
+<!-- FIREBASE -->
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    deleteDoc,
+    doc,
+    orderBy,
+    query,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-storage.js";
+
+
+/* YOUR FIREBASE PROJECT */
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyBxOlqO9lLjEzmkhamN8IWmB8-qgtDSyPE",
+
+    authDomain: "our-little-universe-40a31.firebaseapp.com",
+
+    projectId: "our-little-universe-40a31",
+
+    storageBucket: "our-little-universe-40a31.firebasestorage.app",
+
+    messagingSenderId: "881475199693",
+
+    appId: "1:881475199693:web:54ffa2a65dc6b5fc72bf84"
+
+};
+
+
+/* START FIREBASE */
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+const storage = getStorage(app);
+
+
+/* ELEMENTS */
+
+const titleInput = document.getElementById("title");
+
+const textInput = document.getElementById("text");
+
+const imageInput = document.getElementById("image");
+
+const musicInput = document.getElementById("music");
+
+const saveButton = document.getElementById("saveBtn");
+
+const memoriesContainer =
+document.getElementById("memories");
+
+
+/* SAVE MEMORY */
+
+saveButton.addEventListener("click", async () => {
+
+    const title = titleInput.value.trim();
+
+    const text = textInput.value.trim();
+
+    const imageFile = imageInput.files[0];
+
+    const musicFile = musicInput.files[0];
+
+
+    if (!title || !text) {
+
+        alert("Write a title and a memory first 🤍");
+
+        return;
+
+    }
+
+
+    saveButton.disabled = true;
+
+    saveButton.textContent = "Saving...";
+
+
+    try {
+
+        let imageURL = "";
+
+        let musicURL = "";
+
+
+        /* UPLOAD IMAGE */
+
+        if (imageFile) {
+
+            const imageRef = ref(
+                storage,
+                "memories/images/" +
+                Date.now() +
+                "_" +
+                imageFile.name
+            );
+
+            await uploadBytes(imageRef, imageFile);
+
+            imageURL = await getDownloadURL(imageRef);
+
+        }
+
+
+        /* UPLOAD MUSIC */
+
+        if (musicFile) {
+
+            const musicRef = ref(
+                storage,
+                "memories/music/" +
+                Date.now() +
+                "_" +
+                musicFile.name
+            );
+
+            await uploadBytes(musicRef, musicFile);
+
+            musicURL = await getDownloadURL(musicRef);
+
+        }
+
+
+        /* SAVE TO FIRESTORE */
+
+        await addDoc(
+            collection(db, "memories"),
+            {
+
+                title: title,
+
+                text: text,
+
+                image: imageURL,
+
+                music: musicURL,
+
+                createdAt: serverTimestamp()
+
+            }
+        );
+
+
+        /* CLEAR FORM */
+
+        titleInput.value = "";
+
+        textInput.value = "";
+
+        imageInput.value = "";
+
+        musicInput.value = "";
+
+
+        alert("Memory saved 🤍");
+
+        loadMemories();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Something went wrong.\n\n" +
+            error.message
+        );
+
+    }
+
+
+    saveButton.disabled = false;
+
+    saveButton.textContent = "Save Memory";
+
+});
+
+
+/* LOAD MEMORIES */
+
+async function loadMemories() {
+
+    memoriesContainer.innerHTML = "";
+
+    try {
+
+        const memoriesQuery = query(
+            collection(db, "memories"),
+            orderBy("createdAt", "desc")
+        );
+
+        const snapshot =
+        await getDocs(memoriesQuery);
+
+
+        if (snapshot.empty) {
+
+            memoriesContainer.innerHTML = `
+
+                <p style="
+                    text-align:center;
+                    opacity:.6;
+                    font-size:20px;
+                ">
+
+                    Your first memory
+                    is waiting here... ♡
+
+                </p>
+
+            `;
+
+            return;
+
+        }
+
+
+        snapshot.forEach((memory) => {
+
+            const data = memory.data();
+
+            const card =
+            document.createElement("div");
+
+            card.className = "memory";
+
+
+            let imageHTML = "";
+
+            if (data.image) {
+
+                imageHTML = `
+
+                    <img
+                        src="${data.image}"
+                        alt="memory"
+                    >
+
+                `;
+
+            }
+
+
+            let musicHTML = "";
+
+            if (data.music) {
+
+                musicHTML = `
+
+                    <audio
+                        controls
+                        src="${data.music}"
+                    ></audio>
+
+                `;
+
+            }
+
+
+            let dateText = "";
+
+            if (data.createdAt) {
+
+                const date =
+                data.createdAt.toDate();
+
+                dateText =
+                date.toLocaleDateString(
+                    "en-GB",
+                    {
+                        day:"numeric",
+                        month:"long",
+                        year:"numeric"
+                    }
+                );
+
+            }
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${escapeHTML(data.title)}
+                </h3>
+
+                <p>
+                    ${escapeHTML(data.text)}
+                </p>
+
+                ${imageHTML}
+
+                ${musicHTML}
+
+                <div class="date">
+                    ${dateText}
+                </div>
+
+            `;
+
+
+            memoriesContainer.appendChild(card);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        memoriesContainer.innerHTML = `
+
+            <p style="
+                text-align:center;
+                opacity:.7;
+            ">
+
+                Couldn't load memories yet.
+
+            </p>
+
+        `;
+
+    }
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(text) {
+
+    return text
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+/* LOAD WHEN PAGE OPENS */
+
+loadMemories();
+
+</script>
+  
+</body>
+</html>
