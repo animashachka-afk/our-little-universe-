@@ -742,15 +742,16 @@ function escapeHTML(text) {
 /* LOAD WHEN PAGE OPENS */
 
 loadMemories();
-function openAdmin() {
+
+window.openAdmin = function() {
     document.getElementById("adminPanel")
         .classList.remove("hidden");
-}
+};
 
-function closeAdmin() {
+window.closeAdmin = function() {
     document.getElementById("adminPanel")
         .classList.add("hidden");
-    }
+};
 </script>
   
 </body>
