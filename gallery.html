@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Our Little Universe — Gallery</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    color: white;
+    font-family: Georgia, serif;
+
+    background:
+        linear-gradient(rgba(10,8,16,.58), rgba(10,8,16,.72)),
+        url("f203e7dc9bb9a1a5f0dd073a3895f298.jpg")
+        center / cover fixed;
+
+    padding: 35px 20px 70px;
+}
+
+.container {
+    width: min(100%, 1000px);
+    margin: auto;
+}
+
+.back {
+    display: inline-block;
+    color: rgba(255,255,255,.75);
+    text-decoration: none;
+    margin-bottom: 35px;
+    font-size: 17px;
+}
+
+.back:hover {
+    color: white;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.title .star {
+    font-size: 25px;
+    opacity: .8;
+}
+
+.title h1 {
+    font-size: clamp(38px, 8vw, 65px);
+    font-weight: 400;
+    letter-spacing: 4px;
+    margin: 10px 0;
+}
+
+.title p {
+    font-size: 19px;
+    opacity: .65;
+    font-style: italic;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.photo {
+    position: relative;
+    overflow: hidden;
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.05);
+    cursor: pointer;
+    aspect-ratio: 1 / 1;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.35);
+
+    transition: .35s;
+}
+
+.photo:hover {
+    transform: translateY(-5px);
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: .5s;
+}
+
+.photo:hover img {
+    transform: scale(1.05);
+}
+
+/* FULLSCREEN PHOTO */
+
+.viewer {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(5,4,9,.92);
+    backdrop-filter: blur(12px);
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    z-index: 1000;
+}
+
+.viewer.active {
+    display: flex;
+}
+
+.viewer img {
+    max-width: 95vw;
+    max-height: 88vh;
+
+    object-fit: contain;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.7);
+}
+
+.close {
+    position: fixed;
+    top: 20px;
+    right: 25px;
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,.25);
+    background: rgba(255,255,255,.08);
+
+    color: white;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+
+    .gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .photo {
+        aspect-ratio: 4 / 5;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<a class="back" href="index.html">
+    ← back to our universe
+</a>
+
+<div class="title">
+
+    <div class="star">✦</div>
+
+    <h1>our gallery</h1>
+
+    <p>little pieces of our universe</p>
+
+</div>
+
+
+<div class="gallery">
+
+    <!-- PHOTO 1 -->
+
+    <div class="photo" onclick="openPhoto(this)">
+        <img src="https://ik.imagekit.io/kyokodiary/cf37bf94f2926915327cbc2c8b0bb29b%20(1).jpg?updatedAt=1786306364816">
+    </div>
+
+
+    <!-- PHOTO 2 -->
+
+    <div class="photo" onclick="openPhoto(this)">
+        <img src="https://ik.imagekit.io/kyokodiary/5e099f31f9ffc35686b2ca4cfe020a94.jpg?updatedAt=1786306364865">
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- PHOTO VIEWER -->
+
+<div class="viewer" id="viewer" onclick="closePhoto(event)">
+
+    <button class="close" onclick="closePhoto()">
+        ×
+    </button>
+
+    <img id="viewerImage">
+
+</div>
+
+
+<script>
+
+function openPhoto(element) {
+
+    const image =
+        element.querySelector("img");
+
+    document.getElementById("viewerImage").src =
+        image.src;
+
+    document.getElementById("viewer")
+        .classList.add("active");
+
+}
+
+
+function closePhoto(event) {
+
+    if (
+        event &&
+        event.target.id !== "viewer" &&
+        !event.target.classList.contains("close")
+    ) {
+        return;
+    }
+
+    document.getElementById("viewer")
+        .classList.remove("active");
+
+}
+
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+
+        document.getElementById("viewer")
+            .classList.remove("active");
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
