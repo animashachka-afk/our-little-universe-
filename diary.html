@@ -694,11 +694,29 @@ async function loadMemories() {
                 <div class="date">
                     ${dateText}
                 </div>
+                
+                <button
+        class="deleteMemory"
+        data-id="${memory.id}">
+        Delete
+    </button>
 
             `;
 
 
             memoriesContainer.appendChild(card);
+            
+            card.querySelector(".deleteMemory").addEventListener("click", async () => {
+
+    if (!confirm("Delete this memory?")) return;
+
+    await deleteDoc(
+        doc(db, "memories", memory.id)
+    );
+
+    loadMemories();
+
+});
 
         });
 
