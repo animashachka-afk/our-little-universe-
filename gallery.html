@@ -362,15 +362,13 @@ document.addEventListener("keydown", function(event) {
 
 async function getAuth() {
 
-    const response =
-        await fetch("/api/imagekit-auth");
+    const authResponse = await fetch("/api/imagekit-auth");
 
-    if (!response.ok) {
-        throw new Error("Authentication failed");
-    }
-
-    return await response.json();
+if (!authResponse.ok) {
+    throw new Error("Не удалось получить данные авторизации");
 }
+
+const auth = await authResponse.json();
 
 
 /* ADD PHOTOS */
