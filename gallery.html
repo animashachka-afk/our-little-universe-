@@ -363,7 +363,7 @@ document.addEventListener("keydown", function(event) {
 async function getAuth() {
 
     const response =
-        await fetch("/api/imagekit-auth.js");
+        await fetch("/api/imagekit-auth");
 
     if (!response.ok) {
         throw new Error("Authentication failed");
@@ -514,4 +514,59 @@ async function deletePhoto(event, button) {
 
     if (
         !confirm(
+            "Удалить это фото?"
+        )
+    ) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/delete",
+                {
+                    method: "DELETE",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        fileId: fileId
+                    })
+                }
+            );
+
+        const result =
+            await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.error ||
+                "Delete failed"
+            );
+
+        }
+
+        photo.remove();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Не получилось удалить фото 😭"
+        );
+
+    }
+
+}
+    
+</script>
+
+</body>
+</html>
            
