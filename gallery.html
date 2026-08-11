@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Our Little Universe — Gallery</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    min-height: 100vh;
+
+    color: white;
+
+    font-family: Georgia, serif;
+
+    background:
+        linear-gradient(
+            rgba(10,8,16,.58),
+            rgba(10,8,16,.72)
+        ),
+        url("f203e7dc9bb9a1a5f0dd073a3895f298.jpg")
+        center / cover fixed;
+
+    padding: 35px 20px 70px;
+}
+
+.container {
+
+    width: min(100%, 1000px);
+
+    margin: auto;
+}
+
+.back {
+
+    display: inline-block;
+
+    color: rgba(255,255,255,.75);
+
+    text-decoration: none;
+
+    margin-bottom: 35px;
+
+    font-size: 17px;
+}
+
+.back:hover {
+    color: white;
+}
+
+.title {
+
+    text-align: center;
+
+    margin-bottom: 35px;
+}
+
+.title .star {
+
+    font-size: 25px;
+
+    opacity: .8;
+}
+
+.title h1 {
+
+    font-size: clamp(38px, 8vw, 65px);
+
+    font-weight: 400;
+
+    letter-spacing: 4px;
+
+    margin: 10px 0;
+}
+
+.title p {
+
+    font-size: 19px;
+
+    opacity: .65;
+
+    font-style: italic;
+}
+
+
+/* BUTTONS */
+
+.buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 35px;
+}
+
+.button {
+
+    border: 1px solid rgba(255,255,255,.35);
+
+    background: rgba(255,255,255,.08);
+
+    color: white;
+
+    padding: 13px 25px;
+
+    border-radius: 999px;
+
+    font-family: Georgia, serif;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.button:hover {
+
+    background: rgba(255,255,255,.18);
+
+    transform: translateY(-2px);
+}
+
+
+/* GALLERY */
+
+.gallery {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 18px;
+}
+
+.photo {
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 22px;
+
+    border: 1px solid rgba(255,255,255,.16);
+
+    background: rgba(255,255,255,.05);
+
+    cursor: pointer;
+
+    aspect-ratio: 1 / 1;
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.35);
+
+    transition: .35s;
+}
+
+.photo:hover {
+
+    transform: translateY(-5px);
+}
+
+.photo img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition: .5s;
+}
+
+.photo:hover img {
+
+    transform: scale(1.05);
+}
+
+
+/* DELETE BUTTON */
+
+.delete {
+
+    position: absolute;
+
+    top: 10px;
+
+    right: 10px;
+
+    width: 38px;
+
+    height: 38px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,.3);
+
+    background: rgba(0,0,0,.65);
+
+    color: white;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    z-index: 5;
+}
+
+.delete:hover {
+
+    background: rgba(180,40,60,.8);
+}
+
+
+/* VIEWER */
+
+.viewer {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(5,4,9,.92);
+
+    backdrop-filter: blur(12px);
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 25px;
+
+    z-index: 1000;
+}
+
+.viewer.active {
+
+    display: flex;
+}
+
+.viewer img {
+
+    max-width: 95vw;
+
+    max-height: 88vh;
+
+    object-fit: contain;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.7);
+}
+
+.close {
+
+    position: fixed;
+
+    top: 20px;
+
+    right: 25px;
+
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255,255,255,.25);
+
+    background: rgba(255,255,255,.08);
+
+    color: white;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .gallery {
+
+        grid-template-columns: 1fr;
+    }
+
+    .photo {
+
+        aspect-ratio: 4 / 5;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<a class="back" href="index.html">
+
+    ← back to our universe
+
+</a>
+
+
+<div class="title">
+
+    <div class="star">✦</div>
+
+    <h1>our gallery</h1>
+
+    <p>little pieces of our universe</p>
+
+</div>
+
+
+<div class="buttons">
+
+    <button
+        class="button"
+        onclick="document.getElementById('fileInput').click()"
+    >
+
+        ＋ add photo
+
+    </button>
+
+</div>
+
+
+<input
+    type="file"
+    id="fileInput"
+    accept="image/*"
+    style="display:none"
+>
+
+
+<div class="gallery" id="gallery">
+
+
+    <!-- OLD PHOTO 1 -->
+
+    <div
+        class="photo"
+        data-old="true"
+    >
+
+        <img
+            src="https://ik.imagekit.io/kyokodiary/cf37bf94f2926915327cbc2c8b0bb29b%20(1).jpg?updatedAt=1786306364816"
+        >
+
+        <button
+            class="delete"
+            onclick="deleteOldPhoto(event, this)"
+        >
+
+            ×
+
+        </button>
+
+    </div>
+
+
+    <!-- OLD PHOTO 2 -->
+
+    <div
+        class="photo"
+        data-old="true"
+    >
+
+        <img
+            src="https://ik.imagekit.io/kyokodiary/5e099f31f9ffc35686b2ca4cfe020a94.jpg?updatedAt=1786306364865"
+        >
+
+        <button
+            class="delete"
+            onclick="deleteOldPhoto(event, this)"
+        >
+
+            ×
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- FULLSCREEN VIEWER -->
+
+<div
+    class="viewer"
+    id="viewer"
+    onclick="closePhoto(event)"
+>
+
+    <button
+        class="close"
+        onclick="closePhoto()"
+    >
+
+        ×
+
+    </button>
+
+    <img id="viewerImage">
+
+</div>
+
+
+
+<script>
+
+
+/* IMAGEKIT PUBLIC KEY */
+
+const PUBLIC_KEY =
+    "public_7Q1872goBuJHEKLx7/yLe7Gbros=";
+
+
+const fileInput =
+    document.getElementById("fileInput");
+
+
+const gallery =
+    document.getElementById("gallery");
+
+
+
+/* OPEN PHOTO */
+
+gallery.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target.classList.contains("delete")
+        ) {
+            return;
+        }
+
+        const photo =
+            event.target.closest(".photo");
+
+        if (!photo) {
+            return;
+        }
+
+        const image =
+            photo.querySelector("img");
+
+        if (!image) {
+            return;
+        }
+
+        document.getElementById(
+            "viewerImage"
+        ).src = image.src;
+
+        document.getElementById(
+            "viewer"
+        ).classList.add("active");
+
+    }
+);
+
+
+
+/* ADD PHOTO */
+
+fileInput.addEventListener(
+    "change",
+    async function() {
+
+        const file =
+            fileInput.files[0];
+
+        if (!file) {
+            return;
+        }
+
+
+        try {
+
+            /* GET IMAGEKIT AUTH */
+
+            const authResponse =
+                await fetch(
+                    "/api/imagekit-auth"
+                );
+
+
+            if (!authResponse.ok) {
+
+                throw new Error(
+                    "Не удалось получить авторизацию ImageKit"
+                );
+
+            }
+
+
+            const auth =
+                await authResponse.json();
+
+
+            /* FORM DATA */
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "file",
+                file
+            );
+
+
+            formData.append(
+                "fileName",
+                file.name
+            );
+
+
+            formData.append(
+                "publicKey",
+                PUBLIC_KEY
+            );
+
+
+            formData.append(
+                "token",
+                auth.token
+            );
+
+
+            formData.append(
+                "expire",
+                auth.expire
+            );
+
+
+            formData.append(
+                "signature",
+                auth.signature
+            );
+
+
+            formData.append(
+                "folder",
+                "/our-little-universe"
+            );
+
+
+            /* UPLOAD */
+
+            const response =
+                await fetch(
+                    "https://upload.imagekit.io/api/v1/files/upload",
+                    {
+                        method: "POST",
+
+                        body: formData
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.message ||
+                    result.error ||
+                    "Upload failed"
+                );
+
+            }
+
+
+            /* ADD PHOTO TO PAGE */
+
+            addPhotoToGallery(
+                result.url,
+                result.fileId
+            );
+
+
+            alert(
+                "Фото добавлено ♡"
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Не получилось загрузить фото: " +
+                error.message
+            );
+
+        }
+
+
+        fileInput.value = "";
+
+    }
+);
+
+
+
+/* ADD PHOTO TO GALLERY */
+
+function addPhotoToGallery(
+    url,
+    fileId
+) {
+
+    const div =
+        document.createElement("div");
+
+
+    div.className =
+        "photo";
+
+
+    div.dataset.fileId =
+        fileId;
+
+
+    div.innerHTML = `
+
+        <img src="${url}">
+
+        <button
+            class="delete"
+            onclick="deletePhoto(event, this)"
+        >
+            ×
+        </button>
+
+    `;
+
+
+    gallery.prepend(div);
+
+}
+
+
+
+/* DELETE NEW PHOTO */
+
+async function deletePhoto(
+    event,
+    button
+) {
+
+    event.stopPropagation();
+
+
+    const photo =
+        button.closest(".photo");
+
+
+    const fileId =
+        photo.dataset.fileId;
+
+
+    if (!fileId) {
+
+        alert(
+            "Не найден ID фотографии."
+        );
+
+        return;
+    }
+
+
+    if (
+        !confirm(
+            "Удалить это фото?"
+        )
+    ) {
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/delete",
+                {
+
+                    method: "DELETE",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            fileId: fileId
+                        })
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.error ||
+                "Delete failed"
+            );
+
+        }
+
+
+        photo.remove();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Не получилось удалить фото: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+
+/* DELETE OLD PHOTO FROM PAGE */
+
+function deleteOldPhoto(
+    event,
+    button
+) {
+
+    event.stopPropagation();
+
+
+    if (
+        !confirm(
+            "Убрать это старое фото из галереи?"
+        )
+    ) {
+
+        return;
+    }
+
+
+    button
+        .closest(".photo")
+        .remove();
+
+}
+
+
+
+/* CLOSE VIEWER */
+
+function closePhoto(event) {
+
+    if (
+        event &&
+        event.target.id !== "viewer" &&
+        !event.target.classList.contains("close")
+    ) {
+
+        return;
+    }
+
+
+    document.getElementById(
+        "viewer"
+    ).classList.remove("active");
+
+}
+
+
+
+/* ESC */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            document.getElementById(
+                "viewer"
+            ).classList.remove(
+                "active"
+            );
+
+        }
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>
