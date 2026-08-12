@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Open When...</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+min-height:100vh;
+color:white;
+font-family:Georgia,serif;
+background:
+linear-gradient(rgba(8,6,15,.65),rgba(8,6,15,.85)),
+url("03d713769f2fbfa58103415ec97e6b62.jpg")
+center/cover fixed;
+padding:40px 20px;
+}
+
+.container{
+max-width:750px;
+margin:auto;
+}
+
+h1{
+text-align:center;
+font-size:52px;
+font-weight:400;
+}
+
+.subtitle{
+text-align:center;
+opacity:.65;
+font-style:italic;
+margin:10px 0 40px;
+}
+
+.letter{
+border:1px solid rgba(255,255,255,.18);
+background:rgba(255,255,255,.06);
+border-radius:20px;
+margin:15px 0;
+overflow:hidden;
+}
+
+.letter button{
+width:100%;
+padding:22px;
+background:none;
+border:0;
+color:white;
+font-family:Georgia,serif;
+font-size:20px;
+cursor:pointer;
+}
+
+.message{
+display:none;
+padding:0 25px 25px;
+line-height:1.7;
+font-size:18px;
+opacity:.75;
+}
+
+.letter.open .message{
+display:block;
+}
+
+.back{
+display:block;
+text-align:center;
+margin-top:40px;
+color:white;
+text-decoration:none;
+opacity:.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>open when...</h1>
+
+<div class="subtitle">
+little letters for different versions of you ♡
+</div>
+
+<div class="letter">
+<button>☾ open when you miss me</button>
+<div class="message">
+i wish i could be there right now. but until i can, remember that somewhere there's a person thinking about you and wishing they could hug you.
+</div>
+</div>
+
+<div class="letter">
+<button>☁ open when you're sad</button>
+<div class="message">
+you don't have to be okay all the time. take your time. breathe. i'll still be here.
+</div>
+</div>
+
+<div class="letter">
+<button>✦ open when you can't sleep</button>
+<div class="message">
+if it's late and your mind won't quiet down, imagine we're lying somewhere under the stars just talking about absolutely nothing.
+</div>
+</div>
+
+<div class="letter">
+<button>♡ open when you need to know i love you</button>
+<div class="message">
+i love you. not only on the easy days. not only when everything is perfect. i love you in all the little ordinary moments too.
+</div>
+</div>
+
+<div class="letter">
+<button>✉ open when you need a hug</button>
+<div class="message">
+consider this your digital hug. close your eyes for a second and imagine i'm holding you as tightly as i can.
+</div>
+</div>
+
+<a href="index.html" class="back">
+← back to our universe
+</a>
+
+</div>
+
+<script>
+
+document.querySelectorAll(".letter").forEach(letter=>{
+
+letter.querySelector("button").addEventListener("click",()=>{
+
+letter.classList.toggle("open");
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
