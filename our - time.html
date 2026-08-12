@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Time ♡</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Georgia,serif;
+color:white;
+text-align:center;
+background:
+linear-gradient(rgba(8,6,15,.65),rgba(8,6,15,.82)),
+url("03d713769f2fbfa58103415ec97e6b62.jpg")
+center/cover fixed;
+padding:25px;
+}
+
+.container{max-width:700px}
+
+.star{font-size:28px;opacity:.8;margin-bottom:15px}
+
+h1{
+font-size:55px;
+font-weight:400;
+letter-spacing:3px;
+margin-bottom:12px;
+}
+
+.subtitle{
+font-size:20px;
+opacity:.65;
+font-style:italic;
+margin-bottom:45px;
+}
+
+.counter{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.box{
+padding:25px 10px;
+border:1px solid rgba(255,255,255,.18);
+border-radius:20px;
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(10px);
+}
+
+.number{
+font-size:38px;
+}
+
+.label{
+font-size:16px;
+opacity:.6;
+margin-top:5px;
+}
+
+.back{
+display:inline-block;
+margin-top:40px;
+color:white;
+text-decoration:none;
+opacity:.7;
+font-size:18px;
+}
+
+@media(min-width:600px){
+.counter{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="star">✦</div>
+
+<h1>our time</h1>
+
+<div class="subtitle">
+every second with you matters ♡
+</div>
+
+<div class="counter">
+
+<div class="box">
+<div class="number" id="days">0</div>
+<div class="label">days</div>
+</div>
+
+<div class="box">
+<div class="number" id="hours">0</div>
+<div class="label">hours</div>
+</div>
+
+<div class="box">
+<div class="number" id="minutes">0</div>
+<div class="label">minutes</div>
+</div>
+
+<div class="box">
+<div class="number" id="seconds">0</div>
+<div class="label">seconds</div>
+</div>
+
+</div>
+
+<a href="index.html" class="back">← back to our universe</a>
+
+</div>
+
+<script>
+
+const start = new Date("2026-07-26T00:09:00+05:00");
+
+function updateCounter(){
+
+const now = new Date();
+
+let difference = now - start;
+
+if(difference < 0) difference = 0;
+
+const totalSeconds =
+Math.floor(difference / 1000);
+
+const days =
+Math.floor(totalSeconds / 86400);
+
+const hours =
+Math.floor((totalSeconds % 86400) / 3600);
+
+const minutes =
+Math.floor((totalSeconds % 3600) / 60);
+
+const seconds =
+totalSeconds % 60;
+
+document.getElementById("days").textContent = days;
+document.getElementById("hours").textContent = hours;
+document.getElementById("minutes").textContent = minutes;
+document.getElementById("seconds").textContent = seconds;
+
+}
+
+updateCounter();
+setInterval(updateCounter,1000);
+
+</script>
+
+</body>
+</html>
