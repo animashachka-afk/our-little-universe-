@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Reasons Why I Love You</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    color:white;
+    font-family:Georgia, serif;
+
+    background:
+        linear-gradient(
+            rgba(5,4,12,.58),
+            rgba(5,4,12,.82)
+        ),
+        url("03d713769f2fbfa58103415ec97e6b62.jpg")
+        center / cover fixed;
+
+    padding:35px 20px 60px;
+}
+
+.container{
+    width:min(100%, 750px);
+    margin:auto;
+}
+
+/* BACK */
+
+.back{
+    display:inline-block;
+    color:rgba(255,255,255,.7);
+    text-decoration:none;
+    font-size:17px;
+    margin-bottom:35px;
+}
+
+.back:hover{
+    color:white;
+}
+
+/* TITLE */
+
+.header{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.star{
+    font-size:25px;
+    opacity:.8;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:clamp(38px,8vw,58px);
+    font-weight:400;
+    letter-spacing:3px;
+}
+
+.subtitle{
+    margin-top:10px;
+    font-size:18px;
+    opacity:.6;
+    font-style:italic;
+}
+
+/* REASONS */
+
+#reasons{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.reason{
+    position:relative;
+
+    border:1px solid rgba(255,255,255,.17);
+    border-radius:20px;
+
+    background:rgba(255,255,255,.06);
+
+    backdrop-filter:blur(12px);
+
+    overflow:hidden;
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.2);
+}
+
+/* TITLE BUTTON */
+
+.reason-title{
+    width:100%;
+
+    padding:21px 50px 21px 22px;
+
+    border:0;
+    background:none;
+
+    color:white;
+
+    text-align:left;
+
+    font-family:Georgia, serif;
+    font-size:20px;
+
+    cursor:pointer;
+}
+
+.reason-title:hover{
+    background:rgba(255,255,255,.05);
+}
+
+/* TEXT */
+
+.reason-text{
+    display:none;
+
+    padding:
+        0 22px 22px;
+
+    font-size:18px;
+
+    line-height:1.7;
+
+    color:rgba(255,255,255,.72);
+}
+
+.reason.open .reason-text{
+    display:block;
+}
+
+/* DELETE */
+
+.delete{
+    position:absolute;
+
+    top:16px;
+    right:17px;
+
+    width:28px;
+    height:28px;
+
+    border:0;
+    border-radius:50%;
+
+    background:rgba(255,255,255,.08);
+
+    color:rgba(255,255,255,.65);
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    z-index:2;
+}
+
+.delete:hover{
+    background:rgba(255,100,100,.2);
+    color:white;
+}
+
+/* ADD */
+
+.add-area{
+    text-align:center;
+    margin-top:25px;
+}
+
+.add-button{
+    padding:14px 25px;
+
+    border:1px solid rgba(255,255,255,.3);
+    border-radius:30px;
+
+    background:rgba(255,255,255,.07);
+
+    color:white;
+
+    font-family:Georgia, serif;
+    font-size:17px;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.add-button:hover{
+    background:rgba(255,255,255,.15);
+}
+
+/* FORM */
+
+.form{
+    display:none;
+
+    margin-top:18px;
+
+    padding:22px;
+
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:20px;
+
+    background:rgba(255,255,255,.06);
+
+    backdrop-filter:blur(10px);
+}
+
+.form.show{
+    display:block;
+}
+
+input,
+textarea{
+    width:100%;
+
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:12px;
+
+    background:rgba(0,0,0,.2);
+
+    color:white;
+
+    padding:13px 15px;
+
+    font-family:Georgia, serif;
+    font-size:16px;
+
+    outline:none;
+
+    margin-bottom:12px;
+}
+
+textarea{
+    min-height:130px;
+    resize:vertical;
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:rgba(255,255,255,.4);
+}
+
+.save{
+    border:0;
+    border-radius:25px;
+
+    padding:11px 22px;
+
+    background:rgba(255,255,255,.15);
+
+    color:white;
+
+    font-family:Georgia, serif;
+
+    cursor:pointer;
+}
+
+.cancel{
+    border:0;
+    background:none;
+
+    color:rgba(255,255,255,.6);
+
+    margin-left:12px;
+
+    cursor:pointer;
+
+    font-family:Georgia, serif;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="index.html" class="back">
+← back to our universe
+</a>
+
+<div class="header">
+
+<div class="star">✦</div>
+
+<h1>
+reasons why i love you
+</h1>
+
+<div class="subtitle">
+and i could probably write forever ♡
+</div>
+
+</div>
+
+
+<div id="reasons">
+
+<!-- DEFAULT REASON 1 -->
+
+<div class="reason">
+
+<button
+    class="reason-title"
+    onclick="toggleReason(this)"
+>
+01 — your smile
+</button>
+
+<div class="reason-text">
+because somehow your smile can make
+everything feel a little lighter.
+</div>
+
+</div>
+
+
+<!-- DEFAULT REASON 2 -->
+
+<div class="reason">
+
+<button
+    class="reason-title"
+    onclick="toggleReason(this)"
+>
+02 — the way you talk to me
+</button>
+
+<div class="reason-text">
+even the smallest conversations with you
+become something i want to remember.
+</div>
+
+</div>
+
+
+<!-- DEFAULT REASON 3 -->
+
+<div class="reason">
+
+<button
+    class="reason-title"
+    onclick="toggleReason(this)"
+>
+03 — you make ordinary days special
+</button>
+
+<div class="reason-text">
+nothing extraordinary has to happen.
+having you there is already enough.
+</div>
+
+</div>
+
+
+<!-- DEFAULT REASON 4 -->
+
+<div class="reason">
+
+<button
+    class="reason-title"
+    onclick="toggleReason(this)"
+>
+04 — the way you care
+</button>
+
+<div class="reason-text">
+i notice all those little things you do
+even when you don't think i do.
+</div>
+
+</div>
+
+
+<!-- DEFAULT REASON 5 -->
+
+<div class="reason">
+
+<button
+    class="reason-title"
+    onclick="toggleReason(this)"
+>
+05 — because you're you
+</button>
+
+<div class="reason-text">
+honestly this one doesn't need
+an explanation.
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ADD -->
+
+<div class="add-area">
+
+<button
+    class="add-button"
+    onclick="showForm()"
+>
+＋ add a reason
+</button>
+
+
+<div
+    class="form"
+    id="form"
+>
+
+<input
+    id="reasonTitle"
+    type="text"
+    placeholder="reason..."
+>
+
+<textarea
+    id="reasonText"
+    placeholder="write why you love them..."
+></textarea>
+
+
+<button
+    class="save"
+    onclick="addReason()"
+>
+save ♡
+</button>
+
+<button
+    class="cancel"
+    onclick="hideForm()"
+>
+cancel
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* OPEN REASON */
+
+function toggleReason(button){
+
+    const card =
+        button.parentElement;
+
+    card.classList.toggle("open");
+
+}
+
+
+/* SHOW FORM */
+
+function showForm(){
+
+    document
+        .getElementById("form")
+        .classList.add("show");
+
+}
+
+
+/* HIDE FORM */
+
+function hideForm(){
+
+    document
+        .getElementById("form")
+        .classList.remove("show");
+
+}
+
+
+/* LOAD SAVED */
+
+function loadReasons(){
+
+    const saved =
+        JSON.parse(
+            localStorage.getItem("reasons")
+            || "[]"
+        );
+
+    saved.forEach(reason => {
+
+        createReason(
+            reason.title,
+            reason.text
+        );
+
+    });
+
+}
+
+
+/* ADD REASON */
+
+function addReason(){
+
+    const title =
+        document
+        .getElementById("reasonTitle")
+        .value
+        .trim();
+
+    const text =
+        document
+        .getElementById("reasonText")
+        .value
+        .trim();
+
+
+    if(!title || !text){
+
+        alert(
+            "write both the reason and the text ♡"
+        );
+
+        return;
+
+    }
+
+
+    const saved =
+        JSON.parse(
+            localStorage.getItem("reasons")
+            || "[]"
+        );
+
+
+    saved.push({
+        title:title,
+        text:text
+    });
+
+
+    localStorage.setItem(
+        "reasons",
+        JSON.stringify(saved)
+    );
+
+
+    createReason(
+        title,
+        text
+    );
+
+
+    document.getElementById(
+        "reasonTitle"
+    ).value = "";
+
+    document.getElementById(
+        "reasonText"
+    ).value = "";
+
+
+    hideForm();
+
+}
+
+
+/* CREATE CARD */
+
+function createReason(
+    title,
+    text
+){
+
+    const card =
+        document.createElement("div");
+
+    card.className =
+        "reason custom";
+
+
+    const titleButton =
+        document.createElement("button");
+
+    titleButton.className =
+        "reason-title";
+
+    titleButton.textContent =
+        title;
+
+    titleButton.onclick =
+        function(){
+
+            toggleReason(this);
+
+        };
+
+
+    const textDiv =
+        document.createElement("div");
+
+    textDiv.className =
+        "reason-text";
+
+    textDiv.textContent =
+        text;
+
+
+    const deleteButton =
+        document.createElement("button");
+
+    deleteButton.className =
+        "delete";
+
+    deleteButton.textContent =
+        "×";
+
+
+    deleteButton.onclick =
+        function(){
+
+            deleteReason(
+                card,
+                title,
+                text
+            );
+
+        };
+
+
+    card.appendChild(
+        titleButton
+    );
+
+    card.appendChild(
+        textDiv
+    );
+
+    card.appendChild(
+        deleteButton
+    );
+
+
+    document
+        .getElementById("reasons")
+        .appendChild(card);
+
+}
+
+
+/* DELETE */
+
+function deleteReason(
+    card,
+    title,
+    text
+){
+
+    if(
+        !confirm(
+            "delete this reason? ♡"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    const saved =
+        JSON.parse(
+            localStorage.getItem("reasons")
+            || "[]"
+        );
+
+
+    const index =
+        saved.findIndex(
+            item =>
+                item.title === title &&
+                item.text === text
+        );
+
+
+    if(index !== -1){
+
+        saved.splice(
+            index,
+            1
+        );
+
+    }
+
+
+    localStorage.setItem(
+        "reasons",
+        JSON.stringify(saved)
+    );
+
+
+    card.remove();
+
+}
+
+
+/* START */
+
+loadReasons();
+
+</script>
+
+</body>
+</html>
