@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Our Little Universe — Gallery</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    background:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.75)),
+        url("https://ik.imagekit.io/kyokodiary/background.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    color: #eee;
+
+    font-family: Georgia, serif;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 60px 20px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 48px;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    opacity: .7;
+    font-style: italic;
+    margin-bottom: 40px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.button {
+    border: 1px solid rgba(255,255,255,.5);
+    background: rgba(255,255,255,.08);
+    color: white;
+
+    padding: 12px 25px;
+
+    border-radius: 30px;
+
+    font-family: Georgia, serif;
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.button:hover {
+    background: rgba(255,255,255,.2);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.gallery {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fill, minmax(250px, 1fr));
+
+    gap: 20px;
+}
+
+.photo {
+    position: relative;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    background: rgba(255,255,255,.05);
+
+    aspect-ratio: 1 / 1;
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    cursor: pointer;
+
+    transition: .4s;
+}
+
+.photo img:hover {
+    transform: scale(1.04);
+}
+
+.delete {
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    width: 34px;
+    height: 34px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(0,0,0,.65);
+
+    color: white;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    z-index: 5;
+}
+
+.delete:hover {
+    background: rgba(120,30,30,.9);
+}
+
+.empty {
+    text-align: center;
+
+    opacity: .6;
+
+    margin-top: 50px;
+}
+
+.loading {
+    text-align: center;
+
+    opacity: .7;
+
+    margin: 30px;
+}
+
+
+/* VIEWER */
+
+.viewer {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.9);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 100;
+}
+
+.viewer.active {
+    display: flex;
+}
+
+.viewer img {
+    max-width: 92vw;
+    max-height: 90vh;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+}
+
+.close {
+    position: fixed;
+
+    top: 20px;
+    right: 25px;
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.15);
+
+    color: white;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+<h1>our little universe</h1>
+
+<div class="subtitle">
+    little moments we want to remember
+</div>
+
+
+<div class="buttons">
+
+<label class="button">
+    + add photo
+
+    <input
+        type="file"
+        id="fileInput"
+        accept="image/*"
+    >
+</label>
+
+<button
+    class="button"
+    onclick="loadPhotos()"
+>
+    ↻ refresh
+</button>
+
+</div>
+
+
+<div
+    id="loading"
+    class="loading"
+>
+    loading...
+</div>
+
+
+<div
+    id="gallery"
+    class="gallery"
+>
+</div>
+
+
+<div
+    id="empty"
+    class="empty"
+    style="display:none;"
+>
+    пока здесь нет фотографий ♡
+</div>
+
+</div>
+
+
+<!-- VIEWER -->
+
+<div
+    id="viewer"
+    class="viewer"
+>
+
+<button
+    class="close"
+    onclick="closeViewer()"
+>
+    ×
+</button>
+
+<img
+    id="viewerImage"
+    src=""
+>
+
+</div>
+
+
+<script>
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const fileInput =
+    document.getElementById("fileInput");
+
+const gallery =
+    document.getElementById("gallery");
+
+const loading =
+    document.getElementById("loading");
+
+const empty =
+    document.getElementById("empty");
+
+const viewer =
+    document.getElementById("viewer");
+
+const viewerImage =
+    document.getElementById("viewerImage");
+
+
+/* =========================
+   LOAD PHOTOS
+========================= */
+
+async function loadPhotos() {
+
+    loading.style.display = "block";
+
+    gallery.innerHTML = "";
+
+    empty.style.display = "none";
+
+    try {
+
+        const response =
+            await fetch("/api/images");
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Не удалось получить фотографии"
+            );
+
+        }
+
+        const photos =
+            await response.json();
+
+
+        if (!photos.length) {
+
+            empty.style.display = "block";
+
+            return;
+        }
+
+
+        /*
+         * Защита от дублей.
+         * Если ImageKit каким-то образом
+         * вернул один fileId два раза,
+         * показываем его только один раз.
+         */
+
+        const uniquePhotos =
+            [];
+
+        const usedIds =
+            new Set();
+
+
+        photos.forEach(photo => {
+
+            if (
+                !photo.fileId ||
+                usedIds.has(photo.fileId)
+            ) {
+                return;
+            }
+
+            usedIds.add(photo.fileId);
+
+            uniquePhotos.push(photo);
+
+        });
+
+
+        uniquePhotos.forEach(photo => {
+
+            addPhotoToGallery(
+                photo.url,
+                photo.fileId
+            );
+
+        });
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        alert(
+            "Не получилось загрузить галерею:\n\n"
+            + error.message
+        );
+
+    }
+
+    finally {
+
+        loading.style.display = "none";
+
+    }
+
+}
+
+
+/* =========================
+   ADD PHOTO TO GALLERY
+========================= */
+
+function addPhotoToGallery(
+    url,
+    fileId
+) {
+
+    /*
+     * Проверяем, нет ли уже такого фото
+     */
+
+    if (
+        document.querySelector(
+            `.photo[data-file-id="${fileId}"]`
+        )
+    ) {
+        return;
+    }
+
+
+    const div =
+        document.createElement("div");
+
+    div.className = "photo";
+
+    div.dataset.fileId =
+        fileId;
+
+
+    const img =
+        document.createElement("img");
+
+    img.src =
+        url;
+
+    img.alt =
+        "our little universe";
+
+
+    /*
+     * Открытие фотографии
+     */
+
+    img.addEventListener(
+        "click",
+        function() {
+
+            openViewer(url);
+
+        }
+    );
+
+
+    /*
+     * Кнопка удаления
+     */
+
+    const deleteButton =
+        document.createElement("button");
+
+    deleteButton.className =
+        "delete";
+
+    deleteButton.textContent =
+        "×";
+
+
+    deleteButton.addEventListener(
+        "click",
+        function(event) {
+
+            event.stopPropagation();
+
+            deletePhoto(
+                fileId,
+                div
+            );
+
+        }
+    );
+
+
+    div.appendChild(img);
+
+    div.appendChild(deleteButton);
+
+    gallery.appendChild(div);
+
+}
+
+
+/* =========================
+   UPLOAD PHOTO
+========================= */
+
+fileInput.addEventListener(
+    "change",
+    async function() {
+
+        const file =
+            fileInput.files[0];
+
+        if (!file) {
+            return;
+        }
+
+
+        /*
+         * Проверяем размер
+         */
+
+        if (
+            file.size >
+            25 * 1024 * 1024
+        ) {
+
+            alert(
+                "Фото слишком большое.\n"
+                + "Максимальный размер — 25 MB."
+            );
+
+            fileInput.value = "";
+
+            return;
+        }
+
+
+        try {
+
+            loading.style.display =
+                "block";
+
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                "file",
+                file
+            );
+
+
+            const response =
+                await fetch(
+                    "/api/upload-photo",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    result.error ||
+                    "Не удалось загрузить фото"
+                );
+
+            }
+
+
+            /*
+             * Добавляем только если
+             * такого fileId ещё нет
+             */
+
+            addPhotoToGallery(
+                result.url,
+                result.fileId
+            );
+
+
+            empty.style.display =
+                "none";
+
+
+        }
+
+        catch(error) {
+
+            console.error(error);
+
+            alert(
+                "Не получилось загрузить фото:\n\n"
+                + error.message
+            );
+
+        }
+
+        finally {
+
+            loading.style.display =
+                "none";
+
+            /*
+             * Позволяет снова выбрать
+             * тот же самый файл
+             */
+
+            fileInput.value = "";
+
+        }
+
+    }
+);
+
+
+/* =========================
+   DELETE PHOTO
+========================= */
+
+async function deletePhoto(
+    fileId,
+    element
+) {
+
+    const confirmed =
+        confirm(
+            "Удалить это фото? ♡"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/delete-photo",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        fileId: fileId
+                    })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.error ||
+                "Не удалось удалить фото"
+            );
+
+        }
+
+
+        /*
+         * Удаляем фотографию
+         * со страницы
+         */
+
+        element.remove();
+
+
+        /*
+         * Если фотографий больше нет
+         */
+
+        if (
+            gallery.children.length === 0
+        ) {
+
+            empty.style.display =
+                "block";
+
+        }
+
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        alert(
+            "Не получилось удалить фото:\n\n"
+            + error.message
+        );
+
+    }
+
+}
+
+
+/* =========================
+   VIEWER
+========================= */
+
+function openViewer(url) {
+
+    viewerImage.src =
+        url;
+
+    viewer.classList.add(
+        "active"
+    );
+
+}
+
+
+function closeViewer() {
+
+    viewer.classList.remove(
+        "active"
+    );
+
+    viewerImage.src =
+        "";
+
+}
+
+
+viewer.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target === viewer
+        ) {
+
+            closeViewer();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   ESC
+========================= */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeViewer();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   START
+========================= */
+
+loadPhotos();
+
+</script>
+
+</body>
+  </html>
