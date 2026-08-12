@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>our little universe — gallery</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap"
+      rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    min-height:100vh;
+
+    font-family:'Cormorant Garamond',serif;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,.65),
+            rgba(0,0,0,.8)
+        ),
+        url("03d713769f2fbfa58103415ec97e6b62.jpg")
+        center/cover fixed;
+
+    padding:35px 20px;
+
+}
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:0;
+
+    backdrop-filter:blur(3px);
+
+    pointer-events:none;
+
+}
+
+.container{
+
+    position:relative;
+
+    z-index:2;
+
+    max-width:1100px;
+
+    margin:auto;
+
+}
+
+.header{
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+}
+
+h1{
+
+    font-size:58px;
+
+    font-weight:500;
+
+    letter-spacing:4px;
+
+    margin-bottom:10px;
+
+}
+
+.subtitle{
+
+    font-size:21px;
+
+    opacity:.7;
+
+    font-style:italic;
+
+}
+
+.back{
+
+    display:inline-block;
+
+    margin-top:20px;
+
+    color:white;
+
+    text-decoration:none;
+
+    border:1px solid rgba(255,255,255,.4);
+
+    border-radius:999px;
+
+    padding:10px 25px;
+
+    font-size:18px;
+
+    transition:.3s;
+
+}
+
+.back:hover{
+
+    background:rgba(255,255,255,.12);
+
+}
+
+.upload-area{
+
+    display:flex;
+
+    justify-content:center;
+
+    margin-bottom:35px;
+
+}
+
+.add-button{
+
+    display:inline-block;
+
+    cursor:pointer;
+
+    padding:15px 35px;
+
+    border:1px solid rgba(255,255,255,.6);
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.06);
+
+    backdrop-filter:blur(10px);
+
+    color:white;
+
+    font-family:inherit;
+
+    font-size:21px;
+
+    letter-spacing:2px;
+
+    transition:.35s;
+
+}
+
+.add-button:hover{
+
+    background:rgba(255,255,255,.16);
+
+    transform:translateY(-3px);
+
+}
+
+#fileInput{
+
+    display:none;
+
+}
+
+.gallery{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(auto-fill,minmax(230px,1fr));
+
+    gap:20px;
+
+}
+
+.photo{
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:16px;
+
+    border:1px solid rgba(255,255,255,.2);
+
+    background:rgba(255,255,255,.05);
+
+    min-height:220px;
+
+    animation:appear .5s ease;
+
+}
+
+.photo img{
+
+    display:block;
+
+    width:100%;
+
+    height:280px;
+
+    object-fit:cover;
+
+    cursor:pointer;
+
+    transition:.5s;
+
+}
+
+.photo:hover img{
+
+    transform:scale(1.04);
+
+}
+
+.delete{
+
+    position:absolute;
+
+    top:10px;
+
+    right:10px;
+
+    width:35px;
+
+    height:35px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(0,0,0,.65);
+
+    color:white;
+
+    font-size:23px;
+
+    cursor:pointer;
+
+    z-index:5;
+
+    transition:.3s;
+
+}
+
+.delete:hover{
+
+    background:rgba(255,255,255,.25);
+
+    transform:scale(1.1);
+
+}
+
+.empty{
+
+    text-align:center;
+
+    opacity:.6;
+
+    font-size:22px;
+
+    margin-top:60px;
+
+}
+
+.loading{
+
+    text-align:center;
+
+    font-size:21px;
+
+    opacity:.7;
+
+    margin:30px;
+
+}
+
+.viewer{
+
+    position:fixed;
+
+    z-index:100;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(0,0,0,.9);
+
+    padding:25px;
+
+}
+
+.viewer.active{
+
+    display:flex;
+
+}
+
+.viewer img{
+
+    max-width:95vw;
+
+    max-height:90vh;
+
+    object-fit:contain;
+
+    border-radius:12px;
+
+}
+
+.close{
+
+    position:absolute;
+
+    top:20px;
+
+    right:25px;
+
+    width:45px;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+    font-size:30px;
+
+    cursor:pointer;
+
+}
+
+@keyframes appear{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@media(max-width:700px){
+
+    body{
+
+        padding:25px 15px;
+
+    }
+
+    h1{
+
+        font-size:43px;
+
+    }
+
+    .gallery{
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+        gap:12px;
+
+    }
+
+    .photo img{
+
+        height:210px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="header">
+
+        <h1>our little universe</h1>
+
+        <div class="subtitle">
+            little moments we want to remember
+        </div>
+
+        <a href="index.html" class="back">
+            ⟡ back
+        </a>
+
+    </div>
+
+
+    <div class="upload-area">
+
+        <label
+            for="fileInput"
+            class="add-button">
+
+            ⟡ add photo ⟡
+
+        </label>
+
+        <input
+            type="file"
+            id="fileInput"
+            accept="image/*">
+
+    </div>
+
+
+    <div
+        id="loading"
+        class="loading">
+
+        loading memories...
+
+    </div>
+
+
+    <div
+        id="gallery"
+        class="gallery">
+
+    </div>
+
+
+    <div
+        id="empty"
+        class="empty"
+        style="display:none;">
+
+        no memories yet ♡
+
+    </div>
+
+
+</div>
+
+
+<div
+    id="viewer"
+    class="viewer">
+
+    <button
+        class="close"
+        onclick="closeViewer()">
+
+        ×
+
+    </button>
+
+    <img
+        id="viewerImage"
+        src="">
+
+</div>
+
+
+<script>
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+
+const PUBLIC_KEY =
+    "public_7Q1872goBuJHEKLx7/yLe7GbRos=";
+
+
+const fileInput =
+    document.getElementById("fileInput");
+
+
+const gallery =
+    document.getElementById("gallery");
+
+
+const empty =
+    document.getElementById("empty");
+
+
+const loading =
+    document.getElementById("loading");
+
+
+const viewer =
+    document.getElementById("viewer");
+
+
+const viewerImage =
+    document.getElementById("viewerImage");
+
+
+/* =========================
+   SAVED PHOTOS
+========================= */
+
+
+let photos = [];
+
+
+/* =========================
+   UPDATE EMPTY
+========================= */
+
+
+function updateEmpty(){
+
+    if(gallery.children.length === 0){
+
+        empty.style.display = "block";
+
+    }else{
+
+        empty.style.display = "none";
+
+    }
+
+}
+
+
+/* =========================
+   ADD PHOTO TO PAGE
+========================= */
+
+
+function addPhotoToGallery(url,fileId){
+
+    /*
+
+       IMPORTANT:
+
+       Проверяем fileId,
+       чтобы одно фото
+       не появилось дважды.
+
+    */
+
+    if(fileId){
+
+        const alreadyExists =
+            document.querySelector(
+                `.photo[data-file-id="${CSS.escape(fileId)}"]`
+            );
+
+        if(alreadyExists){
+
+            return;
+
+        }
+
+    }
+
+
+    const div =
+        document.createElement("div");
+
+
+    div.className =
+        "photo";
+
+
+    if(fileId){
+
+        div.dataset.fileId =
+            fileId;
+
+    }
+
+
+    div.innerHTML = `
+
+        <img
+            src="${url}"
+            onclick="openViewer('${url}')">
+
+        <button
+            class="delete"
+            onclick="deletePhoto(event,this)">
+
+            ×
+
+        </button>
+
+    `;
+
+
+    gallery.prepend(div);
+
+
+    updateEmpty();
+
+}
+
+
+/* =========================
+   LOAD PHOTOS
+========================= */
+
+
+async function loadPhotos(){
+
+    try{
+
+        const response =
+            await fetch("/api/photos");
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "Не удалось получить фотографии"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        /*
+           Убираем возможные дубликаты
+        */
+
+        const unique =
+            new Map();
+
+
+        data.forEach(photo => {
+
+            if(photo.fileId){
+
+                unique.set(
+                    photo.fileId,
+                    photo
+                );
+
+            }
+
+        });
+
+
+        unique.forEach(photo => {
+
+            addPhotoToGallery(
+                photo.url,
+                photo.fileId
+            );
+
+        });
+
+
+    }catch(error){
+
+        console.error(
+            "LOAD ERROR:",
+            error
+        );
+
+
+        empty.innerText =
+            "Не удалось загрузить фотографии ♡";
+
+
+        empty.style.display =
+            "block";
+
+
+    }finally{
+
+        loading.style.display =
+            "none";
+
+    }
+
+}
+
+
+/* =========================
+   UPLOAD PHOTO
+========================= */
+
+
+fileInput.addEventListener(
+    "change",
+    async function(){
+
+        const file =
+            fileInput.files[0];
+
+
+        if(!file){
+
+            return;
+
+        }
+
+
+        try{
+
+            loading.innerText =
+                "uploading memory...";
+
+
+            loading.style.display =
+                "block";
+
+
+            /*
+               Получаем временную
+               авторизацию ImageKit
+            */
+
+            const authResponse =
+                await fetch("/api/auth");
+
+
+            if(!authResponse.ok){
+
+                throw new Error(
+                    "Не удалось получить авторизацию"
+                );
+
+            }
+
+
+            const auth =
+                await authResponse.json();
+
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "file",
+                file
+            );
+
+
+            formData.append(
+                "fileName",
+                file.name
+            );
+
+
+            formData.append(
+                "publicKey",
+                PUBLIC_KEY
+            );
+
+
+            formData.append(
+                "token",
+                auth.token
+            );
+
+
+            formData.append(
+                "expire",
+                auth.expire
+            );
+
+
+            formData.append(
+                "signature",
+                auth.signature
+            );
+
+
+            formData.append(
+                "folder",
+                "our-little-universe"
+            );
+
+
+            const response =
+                await fetch(
+                    "https://upload.imagekit.io/api/v1/files/upload",
+                    {
+                        method:"POST",
+                        body:formData
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if(!response.ok){
+
+                throw new Error(
+                    result.message ||
+                    "ImageKit upload failed"
+                );
+
+            }
+
+
+            /*
+               Добавляем только что
+               загруженное фото.
+
+               fileId используется
+               для защиты от дублей.
+            */
+
+            addPhotoToGallery(
+                result.url,
+                result.fileId
+            );
+
+
+            alert(
+                "Фото добавлено ♡"
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "UPLOAD ERROR:",
+                error
+            );
+
+
+            alert(
+                "Не получилось загрузить фото:\n\n" +
+                error.message
+            );
+
+
+        }finally{
+
+            loading.style.display =
+                "none";
+
+
+            /*
+               Позволяет выбрать
+               тот же файл ещё раз.
+            */
+
+            fileInput.value =
+                "";
+
+        }
+
+    }
+);
+
+
+/* =========================
+   DELETE PHOTO
+========================= */
+
+
+async function deletePhoto(
+    event,
+    button
+){
+
+    event.stopPropagation();
+
+
+    const photo =
+        button.closest(".photo");
+
+
+    if(!photo){
+
+        return;
+
+    }
+
+
+    const fileId =
+        photo.dataset.fileId;
+
+
+    if(!fileId){
+
+        photo.remove();
+
+        updateEmpty();
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Удалить это фото? ♡"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    try{
+
+        /*
+           Удаляем через наш
+           серверный API.
+
+           Private Key здесь
+           НЕ находится.
+        */
+
+        const response =
+            await fetch(
+                "/api/delete",
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        fileId:fileId
+                    })
+
+                }
+            );
+
+
+        if(!response.ok){
+
+            const result =
+                await response.json()
+                    .catch(() => ({}));
+
+
+            throw new Error(
+                result.error ||
+                "Не удалось удалить фото"
+            );
+
+        }
+
+
+        photo.remove();
+
+
+        updateEmpty();
+
+
+    }catch(error){
+
+        console.error(
+            "DELETE ERROR:",
+            error
+        );
+
+
+        alert(
+            "Не получилось удалить фото:\n\n" +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================
+   VIEWER
+========================= */
+
+
+function openViewer(url){
+
+    viewerImage.src =
+        url;
+
+    viewer.classList.add(
+        "active"
+    );
+
+}
+
+
+function closeViewer(){
+
+    viewer.classList.remove(
+        "active"
+    );
+
+    viewerImage.src =
+        "";
+
+}
+
+
+viewer.addEventListener(
+    "click",
+    function(event){
+
+        if(event.target === viewer){
+
+            closeViewer();
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            closeViewer();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   START
+========================= */
+
+
+loadPhotos();
+
+
+</script>
+
+
+</body>
+
+  </html>
