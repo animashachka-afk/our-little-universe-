@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Reasons Why I Love You</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+min-height:100vh;
+color:white;
+font-family:Georgia,serif;
+background:
+linear-gradient(rgba(8,6,15,.65),rgba(8,6,15,.85)),
+url("03d713769f2fbfa58103415ec97e6b62.jpg")
+center/cover fixed;
+padding:40px 20px;
+}
+
+.container{
+max-width:750px;
+margin:auto;
+}
+
+.header{text-align:center;margin-bottom:40px}
+
+h1{
+font-size:48px;
+font-weight:400;
+letter-spacing:2px;
+}
+
+.subtitle{
+margin-top:10px;
+opacity:.65;
+font-style:italic;
+font-size:19px;
+}
+
+.reason{
+border:1px solid rgba(255,255,255,.18);
+background:rgba(255,255,255,.06);
+border-radius:18px;
+margin:14px 0;
+overflow:hidden;
+backdrop-filter:blur(10px);
+}
+
+.reason button{
+width:100%;
+padding:20px;
+background:none;
+border:0;
+color:white;
+font-family:Georgia,serif;
+font-size:20px;
+text-align:left;
+cursor:pointer;
+}
+
+.text{
+display:none;
+padding:0 20px 20px;
+opacity:.75;
+font-size:18px;
+line-height:1.6;
+}
+
+.reason.open .text{
+display:block;
+}
+
+.back{
+display:block;
+text-align:center;
+margin-top:40px;
+color:white;
+text-decoration:none;
+opacity:.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>reasons why i love you</h1>
+<div class="subtitle">and i could probably write forever ♡</div>
+</div>
+
+<div class="reason">
+<button>01 — your smile</button>
+<div class="text">
+because somehow your smile can make everything feel a little lighter.
+</div>
+</div>
+
+<div class="reason">
+<button>02 — the way you talk to me</button>
+<div class="text">
+even the smallest conversations with you become something i want to remember.
+</div>
+</div>
+
+<div class="reason">
+<button>03 — you make ordinary days special</button>
+<div class="text">
+nothing extraordinary has to happen. having you there is already enough.
+</div>
+</div>
+
+<div class="reason">
+<button>04 — the way you care</button>
+<div class="text">
+i notice all those little things you do even when you don't think i do.
+</div>
+</div>
+
+<div class="reason">
+<button>05 — because you're you</button>
+<div class="text">
+honestly this one doesn't need an explanation.
+</div>
+</div>
+
+<a href="index.html" class="back">← back to our universe</a>
+
+</div>
+
+<script>
+
+document.querySelectorAll(".reason").forEach(reason=>{
+
+reason.querySelector("button").addEventListener("click",()=>{
+
+reason.classList.toggle("open");
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
