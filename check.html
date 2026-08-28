@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Open When — Storage Check</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 30px 20px;
+    background: #0b0912;
+    color: white;
+    font-family: Georgia, serif;
+}
+
+.container {
+    width: min(100%, 750px);
+    margin: auto;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: 400;
+}
+
+.status {
+    padding: 18px;
+    margin: 20px 0;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 15px;
+    background: rgba(255,255,255,.06);
+}
+
+pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    padding: 18px;
+    border-radius: 15px;
+    background: rgba(0,0,0,.35);
+    border: 1px solid rgba(255,255,255,.15);
+    line-height: 1.6;
+    font-family: monospace;
+}
+
+button {
+    padding: 12px 20px;
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: 25px;
+    background: rgba(255,255,255,.1);
+    color: white;
+    font-family: Georgia, serif;
+    font-size: 16px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✦ Open When — Storage Check</h1>
+
+<div class="status" id="status">
+Checking...
+</div>
+
+<pre id="result"></pre>
+
+<button onclick="checkAgain()">
+↻ check again
+</button>
+
+</div>
+
+<script>
+
+function checkAgain() {
+
+    const status = document.getElementById("status");
+    const result = document.getElementById("result");
+
+    try {
+
+        const keys = [];
+
+        for (let i = 0; i < localStorage.length; i++) {
+            keys.push(localStorage.key(i));
+        }
+
+        let output = "";
+
+        output += "FOUND LOCAL STORAGE KEYS:\\n";
+        output += "===========================\\n\\n";
+
+        if (keys.length === 0) {
+
+            status.textContent =
+                "❌ localStorage is completely empty.";
+
+            result.textContent =
+                "There are no saved localStorage keys.";
+
+            return;
+        }
+
+        keys.forEach((key, index) => {
+
+            output += `${index + 1}. ${key}\\n`;
+
+        });
+
+        output += "\\n\\n===========================\\n";
+        output += "OPEN WHEN DATA\\n";
+        output += "===========================\\n\\n";
+
+        const openWhen =
+            localStorage.getItem("openWhenLetters");
+
+        if (openWhen === null) {
+
+            status.textContent =
+                "⚠️ openWhenLetters was NOT found.";
+
+            output +=
+                "No key named 'openWhenLetters' exists.\\n";
+
+        } else {
+
+            status.textContent =
+                "✅ openWhenLetters FOUND!";
+
+            output +=
+                "Raw data:\\n\\n";
+
+            output += openWhen;
+
+            output +=
+                "\\n\\n===========================\\n";
+            output +=
+                "TRYING TO READ LETTERS\\n";
+            output +=
+                "===========================\\n\\n";
+
+            try {
+
+                const letters =
+                    JSON.parse(openWhen);
+
+                output +=
+                    "Number of saved letters: " +
+                    letters.length +
+                    "\\n\\n";
+
+                letters.forEach((letter, index) => {
+
+                    output +=
+                        `LETTER ${index + 1}\\n`;
+
+                    output +=
+                        "Title: " +
+                        (letter.title || "(no title)") +
+                        "\\n";
+
+                    output +=
+                        "Text:\\n" +
+                        (letter.text || "(no text)") +
+                        "\\n\\n";
+
+                });
+
+            } catch (error) {
+
+                output +=
+                    "The data exists, but it could not be read as JSON.\\n";
+
+                output +=
+                    "Error: " +
+                    error.message +
+                    "\\n";
+            }
+        }
+
+        output +=
+            "\\n===========================\\n";
+        output +=
+            "ALL LOCAL STORAGE DATA\\n";
+        output +=
+            "===========================\\n\\n";
+
+        keys.forEach(key => {
+
+            output +=
+                `KEY: ${key}\\n`;
+
+            output +=
+                `VALUE:\\n${localStorage.getItem(key)}\\n\\n`;
+
+        });
+
+        result.textContent = output;
+
+    } catch (error) {
+
+        status.textContent =
+            "❌ Error while checking storage.";
+
+        result.textContent =
+            error.message;
+
+    }
+
+}
+
+checkAgain();
+
+</script>
+
+</body>
+</html>
